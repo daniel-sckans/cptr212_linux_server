@@ -9,6 +9,9 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 
+// Our local header.  
+#include "server.h"
+
 int main(int argc, char** argv) {
 
     // Step one: create a socket.  
