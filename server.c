@@ -75,22 +75,33 @@ int main(int argc, char** argv) {
 
         // We'll read and print out the entire request.  
         // http requests (those from the internet) are always terminated by a new line ("\r\n").  
+        char _method[32]; 
+        char _uri[128]; 
+        char _version[64]; 
+        fscanf(socket_stream, "%s %s %s\n", _method, _uri, _version); 
+        fprintf(stdout, "%s %s %s\n", _method, _uri, _version); 
+
         char buffer[256] = {0}; 
         do {
             fgets(buffer, 256, socket_stream); 
             fprintf(stdout, "REQ >> %s", buffer); 
         } while(buffer[0] != '\r'); 
+        
+        if(strstr(_uri + 1, "sample") == _uri + 1) {
+            printf("****Got the sample page.****\n"); 
+            sample(socket_stream, _uri); 
+        } else {
+            // Writing our response.  
+            // In this minimal response, we'll only include the basics.  
+            char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* { background-color: #00f; }</style><h1>Headline!</h1><script>document.querySelector('h1').innerText = 'Hello from JavaScript!';</script></body></html>"; 
+            fprintf(socket_stream, "HTTP/1.1 200 OK"); 
+            fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
+            fprintf(socket_stream, "\n"); 
 
-        // Writing our response.  
-        // In this minimal response, we'll only include the basics.  
-        char* response_payload = "Hello, internet.\n"; 
-        fprintf(socket_stream, "HTTP/1.1 200 OK"); 
-        fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
-        fprintf(socket_stream, "\n"); 
-
-        // This is the body of our response.  
-        fprintf(socket_stream, "%s", response_payload); 
-        fflush(socket_stream); 
+            // This is the body of our response.  
+            fprintf(socket_stream, "%s", response_payload); 
+            fflush(socket_stream); 
+        } 
 
         close(client_socket_descriptor); 
     }
