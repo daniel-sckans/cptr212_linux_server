@@ -90,6 +90,8 @@ int main(int argc, char** argv) {
         if(strstr(_uri + 1, "sample") == _uri + 1) {
             printf("****Got the sample page.****\n"); 
             sample(socket_stream, _uri); 
+        } else if(strstr(_uri + 1, "evan") == _uri + 1) {
+            // evan(socket_stream, _uri); 
         } else {
             // Writing our response.  
             // In this minimal response, we'll only include the basics.  
