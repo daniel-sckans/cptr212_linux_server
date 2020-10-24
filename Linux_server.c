@@ -42,8 +42,7 @@ int main(int argc, char** argv) {
         return 2; 
     }
 
-    // Set your server to listen for incoming connections.  
-    // The number 10 refers to the number of waiting connections (people who have typed your web address into their browser).  
+    // Set your server to listen for incoming connections (with a max queue of 10).  
     result = listen(server_socket_descriptor, 10); 
     if(result == -1) {
         close(server_socket_descriptor); 
@@ -76,9 +75,7 @@ int main(int argc, char** argv) {
 
         // We'll read and print out the entire request.  
         // http requests (those from the internet) are always terminated by a new line ("\r\n").  
-        char _method[32]; 
-        char _uri[128]; 
-        char _version[64]; 
+        
         fscanf(socket_stream, "%s %s %s\n", _method, _uri, _version); 
         fprintf(stdout, "%s %s %s\n", _method, _uri, _version); 
 
@@ -87,28 +84,19 @@ int main(int argc, char** argv) {
             fgets(buffer, 256, socket_stream); 
             fprintf(stdout, "REQ >> %s", buffer); 
         } while(buffer[0] != '\r'); 
+
+
+
+
+
+        char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* {</style><h1>Santiago Server.!</h1></body></html>"; 
+        fprintf(socket_stream, "HTTP/1.1 200 OK"); 
+        fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
+        fprintf(socket_stream, "\n"); 
+
+
         
-        if(strstr(_uri + 1, "jon") == _uri + 1) {
-            printf("****Got the sample page.****\n"); 
-<<<<<<< HEAD
-            sample(socket_stream, _uri); 
-=======
-            jon(socket_stream, _uri); 
->>>>>>> 5041e17d3579cb10219c8c89e8bc77a5e20f9970
-        } else {
-            // Writing our response.  
-            // In this minimal response, we'll only include the basics.  
-            char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* { background-color: #00f; }</style><h1>Welcome to Jon's Webpage!</h1><script>document.querySelector('h1').innerText = 'Hello Welcome to Jon's Webpage!';</script></body></html>"; 
-                       
-            fprintf(socket_stream, "HTTP/1.1 200 OK"); 
-            fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
-            fprintf(socket_stream, "\n"); 
-
-            // This is the body of our response.  
-            fprintf(socket_stream, "%s", response_payload); 
-            fflush(socket_stream); 
-        } 
-
+     
         close(client_socket_descriptor); 
     }
 
