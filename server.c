@@ -42,7 +42,8 @@ int main(int argc, char** argv) {
         return 2; 
     }
 
-    // Set your server to listen for incoming connections (with a max queue of 10).  
+    // Set your server to listen for incoming connections.  
+    // The number 10 refers to the number of waiting connections (people who have typed your web address into their browser).  
     result = listen(server_socket_descriptor, 10); 
     if(result == -1) {
         close(server_socket_descriptor); 
@@ -90,8 +91,6 @@ int main(int argc, char** argv) {
         if(strstr(_uri + 1, "sample") == _uri + 1) {
             printf("****Got the sample page.****\n"); 
             sample(socket_stream, _uri); 
-        } else if(strstr(_uri + 1, "evan") == _uri + 1) {
-            // evan(socket_stream, _uri); 
         } else {
             // Writing our response.  
             // In this minimal response, we'll only include the basics.  
