@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     memset(&socket_address, 0, sizeof(socket_address)); 
     socket_address.sin_family = AF_INET; 
     socket_address.sin_addr.s_addr = INADDR_ANY; 
-    socket_address.sin_port = htons((unsigned short int)8000); 
+    socket_address.sin_port = htons((unsigned short int)80); 
     int result = bind(server_socket_descriptor, (struct sockaddr*)&socket_address, sizeof(socket_address)); 
     if(result == -1) {
         close(server_socket_descriptor); 
