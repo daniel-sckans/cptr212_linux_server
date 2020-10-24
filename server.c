@@ -87,15 +87,14 @@ int main(int argc, char** argv) {
             fprintf(stdout, "REQ >> %s", buffer); 
         } while(buffer[0] != '\r'); 
         
-        if(strstr(_uri + 1, "sample") == _uri + 1) {
+        if(strstr(_uri + 1, "jon") == _uri + 1) {
             printf("****Got the sample page.****\n"); 
-            sample(socket_stream, _uri); 
-        } else if(strstr(_uri + 1, "evan") == _uri + 1) {
-            // evan(socket_stream, _uri); 
+            jon(socket_stream, _uri); 
         } else {
             // Writing our response.  
             // In this minimal response, we'll only include the basics.  
-            char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* { background-color: #00f; }</style><h1>Headline!</h1><script>document.querySelector('h1').innerText = 'Hello from JavaScript!';</script></body></html>"; 
+            char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* { background-color: #00f; }</style><h1>Welcome to Jon's Webpage!</h1><script>document.querySelector('h1').innerText = 'Hello Welcome to Jon's Webpage!';</script></body></html>"; 
+                       
             fprintf(socket_stream, "HTTP/1.1 200 OK"); 
             fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
             fprintf(socket_stream, "\n"); 
