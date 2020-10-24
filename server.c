@@ -88,24 +88,32 @@ int main(int argc, char** argv) {
             fprintf(stdout, "REQ >> %s", buffer); 
         } while(buffer[0] != '\r'); 
         
-        if(strstr(_uri + 1, "jon") == _uri + 1) {
-            printf("****Got the sample page.****\n"); 
-<<<<<<< HEAD
-            sample(socket_stream, _uri); 
-=======
+        if(strstr(_uri + 1, "akito") == _uri + 1) {
+            akito(socket_stream, _uri); 
+        } else if(strstr(_uri + 1, "fran") == _uri + 1) {
+            fran(socket_stream, _uri); 
+        } else if(strstr(_uri + 1, "jon") == _uri + 1) {
             jon(socket_stream, _uri); 
->>>>>>> 5041e17d3579cb10219c8c89e8bc77a5e20f9970
+        } else if(strstr(_uri + 1, "trevor") == _uri + 1) {
+            Trevor(socket_stream, _uri); 
         } else {
-            // Writing our response.  
+
+            // Writing a default response; this is the response when no other page is matched.  
             // In this minimal response, we'll only include the basics.  
-            char* response_payload = "<!DOCTYPE html><html><head><title>Test Server</title></head><body><style>* { background-color: #00f; }</style><h1>Welcome to Jon's Webpage!</h1><script>document.querySelector('h1').innerText = 'Hello Welcome to Jon's Webpage!';</script></body></html>"; 
+            char* default_response = "<!DOCTYPE html><html><head><title>Test Server</title></head>"
+                "<body>"
+                    "<style>* { background-color: #00f; }</style>"
+                    "<h1>Welcome to the Webpage!</h1>"
+                    "<script>document.querySelector('h1').innerText = 'Hello Welcome to Jon's Webpage!';</script>"
+                "</body>"
+            "</html>"; 
                        
             fprintf(socket_stream, "HTTP/1.1 200 OK"); 
-            fprintf(socket_stream, "Content-length: %lu\n", strlen(response_payload)); 
+            fprintf(socket_stream, "Content-length: %lu\n", strlen(default_response)); 
             fprintf(socket_stream, "\n"); 
 
             // This is the body of our response.  
-            fprintf(socket_stream, "%s", response_payload); 
+            fprintf(socket_stream, "%s", default_response); 
             fflush(socket_stream); 
         } 
 
